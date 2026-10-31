@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import sidebar from "@/components/sidebar";
 
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"] });
 const nunito = Nunito_Sans({ variable: "--font-nunito", subsets: ["latin"] });
