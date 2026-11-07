@@ -20,9 +20,8 @@ const admin: MenuSection[] = [
       label: "Manajemen Pengguna", href: "/admin/pengguna", icon: Users,
       children: [
         { label: "Data Siswa", href: "/admin/pengguna/siswa" },
-        { label: "Data Guru", href: "/admin/pengguna/guru" },
-        { label: "Data Orang Tua", href: "/admin/pengguna/orang-tua" },
-        { label: "Akun & Sandi", href: "/admin/pengguna/akun" },
+        { label: "Data Guru & TU", href: "/admin/pengguna/guru" },
+        { label: "Wali Santri", href: "/admin/pengguna/wali" },
       ],
     }],
   },
