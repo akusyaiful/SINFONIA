@@ -30,7 +30,7 @@ export default function Sidebar({ role }: { role: Role }) {
             )}
             <ul className="space-y-1">
               {section.items.map(({ label, href, icon: Icon, children }) => {
-                const active = pathname === href;
+                const active = children ? pathname.startsWith(href) : pathname === href;
                 return (
                   <li key={href}>
                     <Link
@@ -49,7 +49,7 @@ export default function Sidebar({ role }: { role: Role }) {
                             <Link
                               href={c.href}
                               className={`block rounded-md px-2 py-1.5 text-sm hover:text-primary ${
-                                pathname === c.href ? "font-semibold text-primary" : "text-neutral/80"
+                                pathname.startsWith(c.href) ? "font-semibold text-primary" : "text-neutral/80"
                               }`}
                             >
                               {c.label}
