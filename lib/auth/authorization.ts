@@ -8,22 +8,31 @@ export type UserRole =
   | "student"
   | "parent";
 
-interface AuthorizationResult {
-  authorized: boolean;
-  user: {
-    id: string;
-    email?: string;
-  } | null;
-  roles: UserRole[];
-  response?: NextResponse;
-}
+type AuthenticatedUser = {
+  id: string;
+  email?: string;
+};
+
+type AuthorizationResult =
+  | {
+      authorized: true;
+      supabase: Awaited<ReturnType<typeof createClient>>;
+      user: AuthenticatedUser;
+      roles: UserRole[];
+    }
+  | {
+      authorized: false;
+      user: AuthenticatedUser | null;
+      roles: UserRole[];
+      response: NextResponse;
+    };
 
 export async function requireRole(
   allowedRoles: UserRole[]
 ): Promise<AuthorizationResult> {
   const supabase = await createClient();
 
-  // 1. Periksa autentikasi pengguna
+  // 1. Validasi session pengguna
   const {
     data: { user },
     error: authError,
@@ -44,11 +53,10 @@ export async function requireRole(
     };
   }
 
-
-  // Periksa apakah pengguna wajib mengganti password
+  // 2. Periksa profil pengguna
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("must_change_password")
+    .select("is_active, must_change_password")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -60,7 +68,7 @@ export async function requireRole(
       response: NextResponse.json(
         {
           success: false,
-          message: "Gagal memeriksa status password.",
+          message: "Gagal memeriksa profil pengguna.",
         },
         { status: 500 }
       ),
@@ -82,6 +90,23 @@ export async function requireRole(
     };
   }
 
+  // 3. Periksa status akun
+  if (!profile.is_active) {
+    return {
+      authorized: false,
+      user: null,
+      roles: [],
+      response: NextResponse.json(
+        {
+          success: false,
+          message: "Akun pengguna tidak aktif.",
+        },
+        { status: 403 }
+      ),
+    };
+  }
+
+  // 4. Periksa kewajiban mengganti password
   if (profile.must_change_password) {
     return {
       authorized: false,
@@ -91,14 +116,15 @@ export async function requireRole(
         {
           success: false,
           code: "PASSWORD_CHANGE_REQUIRED",
-          message: "Anda wajib mengganti password sebelum mengakses fitur ini.",
+          message:
+            "Anda wajib mengganti password sebelum mengakses fitur ini.",
         },
         { status: 403 }
       ),
     };
   }
 
-  // 2. Ambil role dari database
+  // 5. Ambil role pengguna
   const { data: roleData, error: roleError } = await supabase
     .from("user_roles")
     .select("role")
@@ -112,14 +138,14 @@ export async function requireRole(
       response: NextResponse.json(
         {
           success: false,
-          message: "Gagal memeriksa hak akses pengguna.",
+          message: "Gagal memeriksa role pengguna.",
         },
         { status: 500 }
       ),
     };
   }
 
-  // 3. Validasi role
+  // 6. Filter role yang valid
   const validRoles: UserRole[] = [
     "admin",
     "teacher",
@@ -133,7 +159,22 @@ export async function requireRole(
       validRoles.includes(role as UserRole)
     );
 
-  // 4. Periksa apakah pengguna memiliki role yang diizinkan
+  if (roles.length === 0) {
+    return {
+      authorized: false,
+      user: null,
+      roles: [],
+      response: NextResponse.json(
+        {
+          success: false,
+          message: "Pengguna belum memiliki role yang valid.",
+        },
+        { status: 403 }
+      ),
+    };
+  }
+
+  // 7. Periksa izin akses
   const hasAccess = roles.some((role) =>
     allowedRoles.includes(role)
   );
@@ -156,8 +197,10 @@ export async function requireRole(
     };
   }
 
+  // 8. Pengguna berhasil diotorisasi
   return {
     authorized: true,
+    supabase,
     user: {
       id: user.id,
       email: user.email,
