@@ -1,11 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { BookOpen, Contact, DoorOpen, GraduationCap } from "lucide-react";
 import type { StatItem } from "@/data/dashboard";
 import { cn } from "@/lib/utils";
 
+const iconMap = {
+  GraduationCap,
+  Contact,
+  DoorOpen,
+  BookOpen,
+};
+
 export default function StatisticCard({ s }: { s: StatItem }) {
   const router = useRouter();
-  const Icon = s.icon;
+  const Icon = iconMap[s.icon as keyof typeof iconMap] ?? BookOpen;
   return (
     <button onClick={() => router.push(s.href)}
       className="rounded-2xl border border-line bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:shadow-md">

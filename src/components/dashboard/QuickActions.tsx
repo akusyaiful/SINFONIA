@@ -1,9 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { ChevronRight, Zap } from "lucide-react";
+import { CalendarCheck, ChevronRight, RefreshCw, UserPlus, Zap } from "lucide-react";
 import Card from "@/components/ui/Card";
 import { quickActions } from "@/data/dashboard";
 import { useApp } from "@/lib/store";
+
+const iconMap = {
+  UserPlus,
+  CalendarCheck,
+  RefreshCw,
+};
 
 export default function QuickActions() {
   const router = useRouter();
@@ -18,7 +24,7 @@ export default function QuickActions() {
       <h2 className="mb-3 flex items-center gap-2 text-sm font-bold"><Zap size={14} className="text-navy" />Aksi Cepat Pengelolaan</h2>
       <div className="space-y-2">
         {quickActions.map((q) => {
-          const Icon = q.icon;
+          const Icon = iconMap[q.icon as keyof typeof iconMap] ?? Zap;
           return (
             <button key={q.title} onClick={() => run(q.action)} className="flex w-full items-center gap-3 rounded-xl border border-line bg-bg p-2.5 text-left hover:bg-soft">
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-soft text-primary"><Icon size={15} /></span>

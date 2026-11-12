@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "SINFONIA LMS – MI Nashrul Fajar", 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id">
-      <body className={`${jakarta.variable} font-sans`}>
+      <body className={`${jakarta.variable} font-sans bg-bg text-ink antialiased`}>
         <AppProvider><DashboardLayout>{children}</DashboardLayout></AppProvider>
       </body>
     </html>

@@ -1,8 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { BookOpen, FileUp, Megaphone } from "lucide-react";
 import Card from "@/components/ui/Card";
 import { activities } from "@/data/dashboard";
 import { useApp } from "@/lib/store";
+
+const iconMap = {
+  FileUp,
+  Megaphone,
+  BookOpen,
+};
 
 export default function RecentActivities() {
   const { openDetail } = useApp();
@@ -18,7 +25,7 @@ export default function RecentActivities() {
       </div>
       <ul className="mt-4 space-y-1">
         {activities.map((a) => {
-          const Icon = a.icon;
+          const Icon = iconMap[a.icon as keyof typeof iconMap] ?? BookOpen;
           return (
             <li key={a.title}>
               <button onClick={() => openDetail({ title: a.title, body: a.desc, meta: a.time })} className="flex w-full items-start gap-3 rounded-xl p-2.5 text-left hover:bg-bg">
