@@ -1,0 +1,47 @@
+import { GraduationCap, Briefcase, Armchair, BookMarked } from "lucide-react";
+import type { ReactNode } from "react";
+import { stats } from "@/lib/data";
+ 
+function Stat({
+  label, value, unit, icon, children,
+}: { label: string; value: number; unit: string; icon: ReactNode; children: ReactNode }) {
+  return (
+    <div className="rounded-2xl border border-line bg-surface p-4">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-[11px] text-muted">{label}</p>
+          <p className="mt-1 text-3xl font-bold leading-none">
+            {value} <span className="text-sm font-medium text-muted">{unit}</span>
+          </p>
+        </div>
+        <span className="grid size-9 place-items-center rounded-lg bg-brand-soft text-brand">{icon}</span>
+      </div>
+      <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted">{children}</div>
+    </div>
+  );
+}
+ 
+const pill = "rounded-md px-2 py-0.5 text-[11px] font-semibold";
+ 
+export default function StatCards() {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <Stat label="Total Siswa Aktif" value={stats.siswa.total} unit="Siswa" icon={<GraduationCap className="size-5" />}>
+        <span className={`${pill} bg-ok-soft text-ok`}>+{stats.siswa.tambahan} semester ini</span>
+        <span>{stats.siswa.aktif} Rombel aktif</span>
+      </Stat>
+      <Stat label="Tenaga Pendidik (Asatidz)" value={stats.guru.total} unit="Guru" icon={<Briefcase className="size-5" />}>
+        <span className={`${pill} bg-ok-soft text-ok`}>{stats.guru.aktif}</span>
+        <span>{stats.guru.sertifikasi} Guru Sertifikasi</span>
+      </Stat>
+      <Stat label="Rombongan Belajar (Kelas)" value={stats.rombel.total} unit="Rombel" icon={<Armchair className="size-5" />}>
+        <span className={`${pill} bg-info-soft text-info`}>{stats.rombel.lengkap}</span>
+        <span>Rata-rata {stats.rombel.rataRata} /kelas</span>
+      </Stat>
+      <Stat label="Materi & Tugas Berjalan" value={stats.modul.total} unit="Modul" icon={<BookMarked className="size-5" />}>
+        <span className={`${pill} bg-info-soft text-info`}>{stats.modul.aktif} Tugas Aktif</span>
+        <span>{stats.modul.tuntas}% Terkumpul</span>
+      </Stat>
+    </div>
+  );
+}

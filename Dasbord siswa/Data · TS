@@ -1,0 +1,45 @@
+export const stats = {
+  siswa: { total: 548, aktif: 18, tambahan: 12 },
+  guru: { total: 36, aktif: "Semua Aktif", sertifikasi: 12 },
+  rombel: { total: 18, lengkap: "1A - 6C Lengkap", rataRata: 30.4 },
+  modul: { total: 142, aktif: 65, tuntas: 98.2 },
+};
+ 
+export const attendance = [
+  { label: "Hadir Tepat Waktu", value: "96.4%", sub: "528 Siswa", tone: "ok" },
+  { label: "Izin Terkonfirmasi", value: "2.1%", sub: "12 Siswa", tone: "warn" },
+  { label: "Sakit (Keterangan)", value: "1.1%", sub: "6 Siswa", tone: "info" },
+  { label: "Alpa / Belum Hadir", value: "0.4%", sub: "3 Siswa", tone: "bad" },
+] as const;
+ 
+export const activities = [
+  {
+    title: "Guru Ahmad Fadil, S.Pd.I mengunggah RPP Fiqih",
+    desc: "RPP Bab Sholat Jamak & Qashar untuk Kelas 4-A & 4-B Semester Genap.",
+    time: "12 menit yang lalu",
+    type: "doc",
+  },
+  {
+    title: "Pengumuman Jadwal PTS dibagikan ke 18 Kelas",
+    desc: "Jadwal dan tata tertib Penilaian Tengah Semester genap telah diteruskan kepada wali murid.",
+    time: "45 menit yang lalu",
+    type: "megaphone",
+  },
+  {
+    title: "Update Rekap Nilai Tahfidz Juz 30 Kelas 4-B",
+    desc: "Ustadz Hanif Fauzan menyelesaikan evaluasi kelancaran makhraj dan tajwid 28 santri.",
+    time: "2 jam yang lalu",
+    type: "book",
+  },
+] as const;
+ 
+export const quickActions = [
+  { title: "Registrasi Santri Baru", desc: "Input data PPDB & NISN" },
+  { title: "Penjadwalan Ujian", desc: "Atur ruang & pengawas PTS" },
+  { title: "Sinkronisasi EMIS Kemenag", desc: "Verifikasi sinkron 4.0" },
+];
+ 
+export const agenda = [
+  { month: "FEB", day: "17", title: "Pekan Penilaian Harian Ke-3", desc: "Seluruh jenjang Kelas 1-6", tone: "brand" },
+  { month: "FEB", day: "22", title: "Khotmil Quran Santri Tahfidz", desc: "Wisuda Juz 30 & Juz 29", tone: "ok" },
+] as const;

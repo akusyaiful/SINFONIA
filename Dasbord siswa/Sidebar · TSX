@@ -1,0 +1,87 @@
+import {
+  LayoutDashboard, Users, GraduationCap, BookOpen, BarChart3,
+  MessageSquare, Settings, LifeBuoy, LogOut, Library, Landmark,
+} from "lucide-react";
+ 
+const groups = [
+  {
+    title: "Navigasi Utama",
+    items: [{ label: "Dashboard", icon: LayoutDashboard, active: true }],
+  },
+  {
+    title: "Pengguna",
+    items: [
+      { label: "Manajemen Pengguna", icon: Users },
+    ],
+    sub: ["Data Siswa", "Data Guru", "Data Orang Tua", "Akun & Sandi"],
+  },
+  {
+    title: "Akademik",
+    items: [
+      { label: "Manajemen Akademik", icon: Landmark },
+      { label: "Operasional Pembelajaran", icon: BookOpen },
+      { label: "Monitoring & Evaluasi", icon: BarChart3 },
+      { label: "Komunikasi", icon: MessageSquare },
+      { label: "Pengaturan Sistem", icon: Settings },
+    ],
+  },
+];
+ 
+export default function Sidebar() {
+  return (
+    <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-line bg-surface lg:flex">
+      <div className="flex items-center gap-3 px-5 py-5">
+        <span className="grid size-9 place-items-center rounded-lg bg-brand text-white">
+          <Library className="size-5" />
+        </span>
+        <div className="leading-tight">
+          <p className="text-sm font-bold">SINfonia LMS</p>
+          <p className="text-[11px] text-muted">MI Nashrul Fajar · Super Admin</p>
+        </div>
+      </div>
+ 
+      <nav className="flex-1 space-y-5 overflow-y-auto px-3 pb-4">
+        {groups.map((g) => (
+          <div key={g.title}>
+            <p className="px-3 pb-2 text-[11px] font-semibold text-muted">{g.title}</p>
+            <ul className="space-y-1">
+              {g.items.map((it) => (
+                <li key={it.label}>
+                  <a
+                    href="#"
+                    aria-current={"active" in it && it.active ? "page" : undefined}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
+                      "active" in it && it.active
+                        ? "bg-brand-soft text-brand"
+                        : "text-ink/80 hover:bg-canvas"
+                    }`}
+                  >
+                    <it.icon className="size-4" />
+                    {it.label}
+                  </a>
+                </li>
+              ))}
+              {"sub" in g &&
+                g.sub?.map((s) => (
+                  <li key={s}>
+                    <a href="#" className="block rounded-md py-1.5 pl-10 pr-3 text-xs text-muted hover:text-ink">
+                      {s}
+                    </a>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+ 
+      <div className="space-y-1 border-t border-line p-3">
+        <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium text-ink/80 hover:bg-canvas">
+          <LifeBuoy className="size-4" /> Pusat Bantuan
+        </a>
+        <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium text-bad hover:bg-bad-soft">
+          <LogOut className="size-4" /> Keluar Akun
+        </a>
+      </div>
+    </aside>
+  );
+}
