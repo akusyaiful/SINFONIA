@@ -3,7 +3,13 @@ import { Search, Bell, Zap, CalendarDays } from "lucide-react";
 type Props = { user: { name: string; role: string } };
 
 export default function Topbar({ user }: Props) {
-  const initials = user.name.split(" ").filter((w) => /^[A-Z]/.test(w)).slice(0, 2).map((w) => w[0]).join("");
+const initials = user.name
+  .replace(/^(Ustadzah|Ustadz)\s+/i, "")
+  .split(" ")
+  .filter((w) => /^[A-Z]/.test(w))
+  .slice(0, 2)
+  .map((w) => w[0])
+  .join("");
 
   return (
     <header className="sticky top-0 z-10 flex items-center gap-3 border-b border-primary/10 bg-white/90 px-6 py-3 backdrop-blur">
