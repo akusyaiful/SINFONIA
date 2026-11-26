@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   Megaphone,
   MonitorCheck,
+  School,
   Settings,
   Users,
 } from "lucide-react";
@@ -29,6 +30,7 @@ const iconMap = {
   LayoutDashboard,
   Megaphone,
   MonitorCheck,
+  School,
   Settings,
   Users,
 };

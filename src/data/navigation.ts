@@ -37,6 +37,11 @@ export const navSections: NavSection[] = [
         icon: "GraduationCap",
       },
       {
+        label: "Kelas Saya",
+        href: "/kelas/4a",
+        icon: "School",
+      },
+      {
         label: "Operasional Pembelajaran",
         href: "/learning",
         icon: "BookOpen",
